@@ -43,7 +43,8 @@ def LoadData():
     c2 = Counter(word for x in x2 for word in x.split())
     x2 = [' '.join(y for y in x.split() if c2[y] > n) for x in x2]
 
-    # creates arrays, x with all sentences, y with all labels that are returned to the classifier
+    # creates arrays, x with all sentences, y with all labels that are
+    # returned to the classifier
     y = np.array(['HT'] * len(x1) + ['MT'] * len(x2))
     x = np.array(x1 + x2)
 
@@ -71,11 +72,8 @@ def show_most_informative_features(vectorizer, clf, n=10):
     coefs_with_fns = sorted(zip(clf.coef_[0], feature_names))
     top = zip(coefs_with_fns[:n], coefs_with_fns[:-(n + 1):-1])
     for (coef_1, fn_1), (coef_2, fn_2) in top:
-        listHT.append(fn_1)
-        listMT.append(fn_2)
-    print('HT',listHT)
-    print("--------")
-    print('MT', listMT)
+        print("\t%.4f\t%-15s\t\t%.4f\t%-15s" % (coef_1, fn_1, coef_2, fn_2))
+
 
 def main():
     """Creates and runs the classifier SVC with 10-fold cross validation"""

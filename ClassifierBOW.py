@@ -59,11 +59,7 @@ def show_most_informative_features(vectorizer, clf, n=10):
 	coefs_with_fns = sorted(zip(clf.coef_[0], feature_names))
 	top = zip(coefs_with_fns[:n], coefs_with_fns[:-(n + 1):-1])
 	for (coef_1, fn_1), (coef_2, fn_2) in top:
-		listHT.append(fn_1)
-		listMT.append(fn_2)
-	print('HT',listHT)
-	print("--------")
-	print('MT',listMT)
+		print("\t%.4f\t%-15s\t\t%.4f\t%-15s" % (coef_1, fn_1, coef_2, fn_2))
 
 
 
@@ -77,10 +73,11 @@ def main():
     # If True use tfidf vectorizer if not use count vectorizer
     tfidf = True
     if tfidf:
-        vec = TfidfVectorizer(stop_words=stopwordlist, binary=True, ngram_range=(1,1))
+        vec = TfidfVectorizer(stop_words=set(
+            stopwords.words('dutch')), binary=True, ngram_range=(1,1))
     else:
         vec = CountVectorizer(stop_words=set(
-            stopwords.words('dutch')), binary=True, ngram_range=(1, 3))
+            stopwords.words('dutch')), binary=True, ngram_range=(1, 2))
 
     y_out_total = np.array([])
     y_test_total = np.array([])

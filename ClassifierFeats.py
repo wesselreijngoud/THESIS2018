@@ -16,9 +16,20 @@ from sklearn.metrics import accuracy_score
 from sklearn.naive_bayes import MultinomialNB
 
 
+
+#Run Feats individually and together, comment out files that you're not using.
+filename = "LEN+PUNCT2.csv" #length and commas and dots
+# filename = "LEN+COM.csv" #length and commas
+# filename = "LEN+STOP.csv" #length and dots
+# filename = "LEN.csv" #just length
+# filename = "COM.csv" #just commas
+# filename = "STOP.csv" #just dots
+# filename = "PUNCT2.csv" #dots and commas
+
+
 def GetFeats():
     """Loads the csv file that contains the extra features"""
-    with open('LEN+PUNCT2.csv', 'r') as fh:
+    with open(filename, 'r') as fh:
         reader = csv.reader(fh)
         # skip headers
         next(reader, None)
@@ -31,6 +42,18 @@ def GetFeats():
     # returns the array csv_data containing all the numerical features and
     # array y containg the labels to the classsifier
     return csv_data, y
+
+
+def show_most_informative_features(clf, n=10):
+    """function to print most informative features, obtained but edited from https://stackoverflow.com/questions/11116697/how-to-get-most-informative-features-for-scikit-learn-classifiers"""
+    listHT = []
+    listMT = []
+    feature_names = ['HT', 'MT']
+    coefs_with_fns = sorted(zip(clf.coef_[0], feature_names))
+    top = zip(coefs_with_fns[:n], coefs_with_fns[:-(n + 1):-1])
+    for (coef_1, fn_1), (coef_2, fn_2) in top:
+        print("\t%.4f\t%-15s\t\t%.4f\t%-15s" % (coef_1, fn_1, coef_2, fn_2))
+
 
 
 def main():
@@ -48,9 +71,9 @@ def main():
         x_test = x[test_index]
         y_train = y[train_index]
         y_test = y[test_index]
-        pipeline = Pipeline([('classifier', LinearSVC())])
-        pipeline.fit(x_train, y_train)
-        y_output = pipeline.predict(x_test)
+        clf = LinearSVC()
+        clf.fit(x_train, y_train)
+        y_output = clf.predict(x_test)
         y_out_total = np.append(y_out_total, y_output)
         y_test_total = np.append(y_test_total, y_test)
         print(classification_report(y_test, y_output))
@@ -60,5 +83,6 @@ def main():
     print("-----------------------------")
     print("Accuracy:")
     print(accuracy_score(y_test, y_output))
+    show_most_informative_features(clf)
 if __name__ == '__main__':
     main()
