@@ -44,16 +44,6 @@ def GetFeats():
     return csv_data, y
 
 
-def show_most_informative_features(clf, n=10):
-    """function to print most informative features, obtained but edited from https://stackoverflow.com/questions/11116697/how-to-get-most-informative-features-for-scikit-learn-classifiers"""
-    listHT = []
-    listMT = []
-    feature_names = ['HT', 'MT']
-    coefs_with_fns = sorted(zip(clf.coef_[0], feature_names))
-    top = zip(coefs_with_fns[:n], coefs_with_fns[:-(n + 1):-1])
-    for (coef_1, fn_1), (coef_2, fn_2) in top:
-        print("\t%.4f\t%-15s\t\t%.4f\t%-15s" % (coef_1, fn_1, coef_2, fn_2))
-
 
 
 def main():
