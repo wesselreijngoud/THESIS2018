@@ -45,10 +45,9 @@ def GetFeats():
 
 
 
-
 def main():
     """Loads the dataset and executes 10 fold cross validation on it with linearsvc as a classifier and 
-    a simple tfidfvectorizer on bigrams as feature"""
+    a the numerical features rows as a feature"""
     # load data
     x, y = GetFeats()
     # Define a 10fold cross validation as suggested by Toral
@@ -73,6 +72,6 @@ def main():
     print("-----------------------------")
     print("Accuracy:")
     print(accuracy_score(y_test, y_output))
-    show_most_informative_features(clf)
+    show_most_informative_features(x, clf)
 if __name__ == '__main__':
     main()
