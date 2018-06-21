@@ -48,13 +48,12 @@ def LoadData():
 
     return x, y
 
-# obtained from
-# https://stackoverflow.com/questions/11116697/how-to-get-most-informative-features-for-scikit-learn-classifiers
+
 
 
 def show_most_informative_features(vectorizer, clf, n=10):
-	listHT = []
-	listMT = []
+# obtained from: but edited
+# https://stackoverflow.com/questions/11116697/how-to-get-most-informative-features-for-scikit-learn-classifiers
 	feature_names = vectorizer.get_feature_names()
 	coefs_with_fns = sorted(zip(clf.coef_[0], feature_names))
 	top = zip(coefs_with_fns[:n], coefs_with_fns[:-(n + 1):-1])
@@ -71,13 +70,13 @@ def main():
     folds = StratifiedKFold(10, shuffle=True, random_state=1)
 
     # If True use tfidf vectorizer if not use count vectorizer
-    tfidf = True
+    tfidf = False
     if tfidf:
         vec = TfidfVectorizer(stop_words=set(
             stopwords.words('dutch')), binary=True, ngram_range=(1,1))
     else:
         vec = CountVectorizer(stop_words=set(
-            stopwords.words('dutch')), binary=True, ngram_range=(1, 2))
+            stopwords.words('dutch')), binary=True, ngram_range=(1, 1))
 
     y_out_total = np.array([])
     y_test_total = np.array([])

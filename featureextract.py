@@ -1,6 +1,8 @@
 #Wessel Reijngoud
 #Thesis 2018
-#Features for sentence length difference and for sentence splits difference 
+#Features for sentence length difference and for difference in number of dots and commas between source and ht and mt
+#all features combined, comment out which you would not like to extract
+#to write to file, run program from terminal like 'python3 featureextract > filename.csv'
 
 import csv
 from sklearn.feature_extraction.text import CountVectorizer

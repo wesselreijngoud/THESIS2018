@@ -66,8 +66,6 @@ def GetFeats():
 
 def show_most_informative_features(vectorizer, clf, n=10):
     """function to print most informative features, obtained but edited from https://stackoverflow.com/questions/11116697/how-to-get-most-informative-features-for-scikit-learn-classifiers"""
-    listHT = []
-    listMT = []
     feature_names = vectorizer.get_feature_names()
     coefs_with_fns = sorted(zip(clf.coef_[0], feature_names))
     top = zip(coefs_with_fns[:n], coefs_with_fns[:-(n + 1):-1])
@@ -95,10 +93,9 @@ def main():
         vec = CountVectorizer(stop_words=set(
             stopwords.words('dutch')), binary=True, ngram_range=(1, 1))
 
-    # vectorizer the sentences
+    # vectorizes the sentences
     countvec = vec.fit(x)
     x = countvec.transform(x)
-    # print(x.shape)
     y_out_total = np.array([])
     y_test_total = np.array([])
     for train_index, test_index in folds.split(x, y):
@@ -109,7 +106,7 @@ def main():
         # split the numerical features csv file
         csv_train = csv_data[train_index]
         csv_test = csv_data[test_index]
-        # combine the numerical features and bag of words
+        # combine the numerical features and bag of words by adding the columns
         x_train = np.column_stack((csv_train, x_train.toarray()))
         x_test = np.column_stack((csv_test, x_test.toarray()))
 
